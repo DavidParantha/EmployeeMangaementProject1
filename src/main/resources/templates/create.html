@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Management - Create</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; display: flex; justify-content: center; }
+        .form-container { width: 400px; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h2 { color: #333; margin-top: 0; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group select { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        button { background-color: #28a745; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px; width: 100%; font-size: 16px; font-weight: bold; }
+        button:hover { background-color: #218838; }
+        .back-btn { display: block; text-align: center; margin-top: 15px; color: #007bff; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Create Employee</h2>
+    <form th:action="@{/create}" th:object="${employee}" method="post" onsubmit="return confirm('Are you sure you want to create this employee? (Yes/No)');">
+        <div class="form-group">
+            <label>Name:</label>
+            <input type="text" th:field="*{name}" required />
+        </div>
+        <div class="form-group">
+            <label>Age:</label>
+            <input type="number" th:field="*{age}" required />
+        </div>
+        <div class="form-group">
+            <label>Designation:</label>
+            <select th:field="*{designation}" required>
+                <option value="PROG">PROG (Salary: 25000)</option>
+                <option value="MANG">MANG (Salary: 30000)</option>
+                <option value="TEST">TEST (Salary: 20000)</option>
+            </select>
+        </div>
+        <button type="submit">Create</button>
+    </form>
+    <a href="/" class="back-btn">Back to Menu</a>
+</div>
+
+</body>
+</html>
