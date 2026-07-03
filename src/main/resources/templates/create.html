@@ -23,10 +23,12 @@
         <div class="form-group">
             <label>Name:</label>
             <input type="text" th:field="*{name}" required />
+            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red; font-size: 12px; margin-top: 5px;">Name Error</div>
         </div>
         <div class="form-group">
             <label>Age:</label>
             <input type="number" th:field="*{age}" required />
+            <div th:if="${#fields.hasErrors('age')}" th:errors="*{age}" style="color: red; font-size: 12px; margin-top: 5px;">Age Error</div>
         </div>
         <div class="form-group">
             <label>Designation:</label>

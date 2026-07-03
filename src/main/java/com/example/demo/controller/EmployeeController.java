@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
 
 @Controller
 public class EmployeeController {
@@ -28,7 +30,10 @@ public class EmployeeController {
 
     // Create Employee submission (POST)
     @PostMapping("/create")
-    public String createEmployee(@ModelAttribute Employee employee) {
+    public String createEmployee(@Valid @ModelAttribute Employee employee, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "create";
+        }
         if ("PROG".equalsIgnoreCase(employee.getDesignation())) {
             employee.setSalary(25000.0);
         } else if ("MANG".equalsIgnoreCase(employee.getDesignation())) {
@@ -57,14 +62,14 @@ public class EmployeeController {
 
     // Raise Salary submission (POST)
     @PostMapping("/raise-salary")
-    public String raiseSalary(@RequestParam("id") Long id, @RequestParam("amount") Double amount, Model model) {
-        Employee emp = repository.findById(id).orElse(null);
+    public String raiseSalary(@RequestParam("name") String name, @RequestParam("amount") Double amount, Model model) {
+        Employee emp = repository.findFirstByName(name).orElse(null);
         if (emp != null) {
             emp.setSalary(emp.getSalary() + amount);
             repository.save(emp);
             return "redirect:/continue";
         } else {
-            model.addAttribute("error", "Employee ID " + id + " not found!");
+            model.addAttribute("error", "Employee Name '" + name + "' not found!");
             return "raise-salary";
         }
     }
